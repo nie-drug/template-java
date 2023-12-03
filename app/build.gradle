@@ -2,29 +2,16 @@ plugins {
     id 'com.android.application'
 }
 
-def locales = file('src/main/res').listFiles(new FilenameFilter() {
-    @Override
-    boolean accept(File dir, String name) {
-        return name.matches('values-.*') && new File(dir, name).list().contains('strings.xml')
-    }
-}).collect { it.name.substring(7) }
-
-print("Locales: " + locales.join(', '))
-
 android {
-    namespace 'oui.template.java' /*TODO: change packageName*/
+    namespace 'com.example.myapplication'
     compileSdk 33
 
     defaultConfig {
-        applicationId "oui.template.java" /*TODO: change packageName*/
-        minSdk 26
-        targetSdk 33
+        applicationId "com.example.myapplication"
+        minSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0.0"
-
-        resConfigs locales
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -34,28 +21,33 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
 configurations.all {
     exclude group: 'androidx.appcompat', module: 'appcompat'
-    exclude group: 'androidx.core', module: 'core'
-    exclude group: 'androidx.drawerlayout', module: 'drawerlayout'
-    exclude group: 'androidx.viewpager', module: 'viewpager'
-    exclude group: 'androidx.fragment', module: 'fragment'
-    exclude group: 'androidx.customview', module: 'customview'
     exclude group: 'androidx.coordinatorlayout', module: 'coordinatorlayout'
+    exclude group: 'androidx.core', module: 'core'
+    exclude group: 'androidx.customview', module: 'customview'
+    exclude group: 'androidx.drawerlayout', module: 'drawerlayout'
+    exclude group: 'androidx.fragment', module: 'fragment'    
+    exclude group: 'androidx.viewpager', module: 'viewpager'
     exclude group: 'com.android.support', module: 'support-compat'
 }
 
 dependencies {
-    implementation 'io.github.oneuiproject:design:1.2.3'
-    implementation 'io.github.oneuiproject:icons:1.0.1'
-    implementation 'io.github.oneuiproject.sesl:appcompat:1.3.0'
-    implementation 'io.github.oneuiproject.sesl:material:1.4.0'
-    implementation 'io.github.oneuiproject.sesl:recyclerview:1.3.0'
+    implementation 'io.github.oneuiproject.sesl:appcompat:1.4.0'
+    implementation 'io.github.oneuiproject.sesl:coordinatorlayout:1.0.0'
+    implementation 'io.github.oneuiproject.sesl:core:1.3.0'
+    implementation 'io.github.oneuiproject.sesl:customview:1.1.0'
+    implementation 'io.github.oneuiproject.sesl:drawerlayout:1.0.0'
+    implementation 'io.github.oneuiproject.sesl:fragment:1.0.0'
+    implementation 'io.github.oneuiproject.sesl:material:1.5.0'
     implementation 'io.github.oneuiproject.sesl:preference:1.1.0'
-    /*TODO: add/update/remove libraries*/
+    implementation 'io.github.oneuiproject.sesl:recyclerview:1.4.1'
+    implementation 'io.github.oneuiproject.sesl:swiperefreshlayout:1.0.0'
+    implementation 'io.github.oneuiproject.sesl:viewpager:1.1.0'
+    implementation 'io.github.oneuiproject.sesl:viewpager2:1.1.0'
 }
