@@ -1,0 +1,36 @@
+name: assembleDebug
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build on Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Change Wrapper Permissions
+        run: chmod +x ./gradlew
+
+      - name: Assemble Debug
+        run: ./gradlew assembleDebug
+
+      - name: Stop gradle daemon
+        run: ./gradlew --stop
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: app/build/outputs/apk/debug/
